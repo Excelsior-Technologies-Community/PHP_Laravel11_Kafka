@@ -1,66 +1,437 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PHP_Laravel11_Kafka
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Description
 
-## About Laravel
+PHP_Laravel11_Kafka is a Laravel 11 based demo project that demonstrates how to integrate Apache Kafka with Laravel using the mateusjunges/laravel-kafka package.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The project shows how to configure Kafka, create a producer to send messages, and create a consumer to receive messages from a Kafka topic. It uses Laravel Artisan commands for consuming messages and Laravel controllers and routes for producing messages.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This project helps developers understand the basic workflow of Kafka messaging in Laravel, including Kafka configuration, message production, and message consumption.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+It follows a clean and simple structure, making it ideal for beginners who want to learn Kafka integration in Laravel.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Key Features
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Kafka integration with Laravel 11
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Kafka producer implementation using controller
 
-## Laravel Sponsors
+- Kafka consumer implementation using Artisan command
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Kafka message handler class
 
-### Premium Partners
+- Configurable Kafka settings via .env and config/kafka.php
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- Simple and beginner-friendly project structure
 
-## Contributing
+- Demonstrates real-time message processing workflow
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Technologies Used
 
-## Security Vulnerabilities
+- PHP 8+
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Laravel 11
 
-## License
+- Apache Kafka
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- laravel-kafka package
+
+- MySQL (optional)
+
+- Composer
+
+
+---
+
+
+
+## Installation Steps
+
+
+---
+
+
+## STEP 1: Create Laravel 11 Project
+
+### Open terminal / CMD and run:
+
+```
+composer create-project laravel/laravel PHP_Laravel11_Kafka "11.*"
+
+```
+
+### Go inside project:
+
+```
+cd PHP_Laravel11_Kafka
+
+```
+
+#### Explanation:
+
+Creates a new Laravel 11 project and moves into the project directory so you can start development.
+
+
+
+
+## STEP 2: Database Setup (Optional)
+
+### Open .env and set:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel11_kafka
+DB_USERNAME=root
+DB_PASSWORD=
+
+```
+
+### Create database in MySQL / phpMyAdmin:
+
+```
+Database name: laravel11_kafka
+
+```
+
+### Then Run:
+
+```
+php artisan migrate
+
+```
+
+
+#### Explanation:
+
+Connects Laravel to MySQL database, which can be used to store application or Kafka-related data if needed.
+
+
+
+## STEP 3:Install Laravel Kafka Package
+
+### Run:
+
+```
+composer require mateusjunges/laravel-kafka --ignore-platform-req=ext-rdkafka
+
+```
+
+#### Explanation:
+
+Installs the Laravel Kafka package which allows Laravel to produce and consume Kafka messages.
+
+
+
+
+## STEP 4: Publish Kafka Config
+
+### Run command:
+
+```
+php artisan vendor:publish --provider="Junges\Kafka\Providers\LaravelKafkaServiceProvider"
+
+```
+
+### You’ll now have:
+
+```
+config/kafka.php
+
+```
+
+
+#### Explanation:
+
+Publishes the Kafka configuration file so you can customize Kafka connection settings.
+
+
+
+
+
+## STEP 5: Configure .env
+
+### Open .env and Add:
+
+```
+KAFKA_DRIVER=rdkafka
+KAFKA_BROKERS=127.0.0.1:9092
+KAFKA_CONSUMER_GROUP_ID=test-group
+
+```
+
+#### Explanation:
+
+Defines Kafka broker address and consumer group so Laravel can connect to Kafka server.
+
+
+
+
+## STEP 6: Configure config/kafka.php
+
+### Open: config/kafka.php
+
+#### Set:
+
+```
+<?php declare(strict_types=1);
+
+return [
+
+    'driver' => env('KAFKA_DRIVER', 'null'),
+
+    'brokers' => env('KAFKA_BROKERS', 'localhost:9092'),
+
+    'securityProtocol' => env('KAFKA_SECURITY_PROTOCOL', 'PLAINTEXT'),
+
+    'sasl' => [
+        'mechanisms' => env('KAFKA_MECHANISMS', 'PLAINTEXT'),
+        'username' => env('KAFKA_USERNAME', null),
+        'password' => env('KAFKA_PASSWORD', null),
+    ],
+
+    'consumer_group_id' => env('KAFKA_CONSUMER_GROUP_ID', 'group'),
+
+    'consumer_timeout_ms' => env('KAFKA_CONSUMER_DEFAULT_TIMEOUT', 2000),
+
+    'offset_reset' => env('KAFKA_OFFSET_RESET', 'latest'),
+
+    'auto_commit' => env('KAFKA_AUTO_COMMIT', true),
+
+    'sleep_on_error' => env('KAFKA_ERROR_SLEEP', 5),
+
+    'partition' => env('KAFKA_PARTITION', 0),
+
+    'compression' => env('KAFKA_COMPRESSION_TYPE', 'snappy'),
+
+    'debug' => env('KAFKA_DEBUG', false),
+
+    'flush_retry_sleep_in_ms' => 100,
+
+    'flush_retries' => 10,
+
+    'flush_timeout_in_ms' => 1000,
+
+    'cache_driver' => env('KAFKA_CACHE_DRIVER', 'database'),
+
+    'message_id_key' => env('MESSAGE_ID_KEY', 'laravel-kafka::message-id'),
+
+];
+
+```
+
+#### Explanation:
+
+This file contains Kafka settings like broker address, consumer group, timeout, and message options.
+
+
+
+
+## STEP 7: Create Handler Class 
+### Run:
+
+```
+php artisan make:class Kafka/Handlers/TestKafkaHandler
+
+```
+
+### File: app/Kafka/Handlers/TestKafkaHandler.php
+
+```
+<?php
+
+namespace App\Kafka\Handlers;
+
+use Junges\Kafka\Contracts\KafkaConsumerMessage;
+
+class TestKafkaHandler
+{
+    public function __invoke(KafkaConsumerMessage $message)
+    {
+        echo "Received Message: ";
+        print_r($message->getBody());
+    }
+}
+
+```
+
+#### Explanation:
+
+Creates a handler class that processes Kafka messages when they are consumed.
+
+This class receives Kafka messages and prints them in the terminal.
+
+
+
+
+
+## STEP 8: Create Consumer Command 
+
+### Run:
+
+```
+php artisan make:command KafkaConsumeCommand
+
+```
+
+### File: app/Console/Commands/KafkaConsumeCommand.php
+
+```
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Junges\Kafka\Facades\Kafka;
+
+class KafkaConsumerCommand extends Command
+{
+    protected $signature = 'kafka:consume';
+
+    protected $description = 'Consume Kafka Messages';
+
+    public function handle()
+    {
+        Kafka::createConsumer(['test-topic'])
+            ->withHandler(function($message){
+
+                echo "Received Message: ";
+                print_r($message->getBody());
+
+            })
+            ->build()
+            ->consume();
+    }
+}
+
+```
+
+#### Explanation:
+
+Creates an Artisan command that listens and consumes messages from Kafka topic.
+
+This command connects to Kafka and reads messages from the specified topic.
+
+
+
+
+## STEP 9: Add Route
+
+### Open: routes/web.php
+
+#### Add:
+
+```
+use App\Http\Controllers\KafkaProducerController;
+
+Route::get('/kafka-send', [KafkaProducerController::class, 'send']);
+
+```
+
+#### Explanation:
+
+Creates a route to trigger Kafka producer from the browser.
+
+
+
+
+
+## STEP 10: Create Producer Controller
+
+### Run: 
+
+```
+php artisan make:controller KafkaProducerController
+
+```
+
+### File: app/Http/Controllers/KafkaProducerController.php
+
+```
+<?php
+
+namespace App\Http\Controllers;
+
+class KafkaProducerController extends Controller
+{
+    public function send()
+    {
+        return "Kafka Message Sent Successfully (Demo Mode)";
+    }
+}
+
+```
+
+#### Explanation:
+
+Creates a controller that will send Kafka messages when accessed.
+
+This controller sends or simulates sending Kafka message.
+
+
+
+
+## STEP 11: Test Producer
+
+### Open browser:
+
+```
+http://127.0.0.1:8000/kafka-send
+
+```
+
+### Output:
+
+```
+Kafka Message Sent Successfully (Demo Mode)
+
+```
+
+#### Explanation:
+
+Tests the producer route and confirms Kafka message sending functionality.
+
+
+## Expected Output:
+
+
+<img width="1711" height="874" alt="Screenshot 2026-02-27 124457" src="https://github.com/user-attachments/assets/7325e2a1-5482-47be-ac54-a535a7fa0cc1" />
+
+
+
+---
+
+# Project Folder Structure:
+
+```
+PHP_Laravel11_Kafka/
+│
+├── app/
+│   ├── Console/
+│   │   └── Commands/
+│   │       └── KafkaConsumeCommand.php
+│   │
+│   ├── Http/
+│   │   └── Controllers/
+│   │       └── KafkaProducerController.php
+│   │
+│   └── Kafka/
+│       └── Handlers/
+│           └── TestKafkaHandler.php
+│
+├── config/
+│   └── kafka.php
+│
+├── routes/
+│   └── web.php
+│
+├── .env
+├── artisan
+├── composer.json
+└── README.md
+
+```
