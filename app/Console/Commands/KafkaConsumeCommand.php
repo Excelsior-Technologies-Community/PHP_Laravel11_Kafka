@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Junges\Kafka\Facades\Kafka;
+use App\Models\KafkaMessage;
 
 class KafkaConsumerCommand extends Command
 {
@@ -14,10 +15,18 @@ class KafkaConsumerCommand extends Command
     public function handle()
     {
         Kafka::createConsumer(['test-topic'])
-            ->withHandler(function($message){
+            ->withHandler(function ($message) {
 
-                echo "Received Message: ";
-                print_r($message->getBody());
+                $data = $message->getBody();
+
+                // Save message into database
+                KafkaMessage::create([
+                    'message' => json_encode($data)
+                ]);
+
+                echo "Saved Message: ";
+                print_r($data);
+                echo "\n";
 
             })
             ->build()
