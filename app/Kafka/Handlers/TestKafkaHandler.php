@@ -3,12 +3,12 @@
 namespace App\Kafka\Handlers;
 
 use Junges\Kafka\Contracts\KafkaConsumerMessage;
+use Junges\Kafka\Contracts\Consumer; 
 
-class TestKafkaHandler
+class TestKafkaHandler implements Consumer
 {
-    public function __invoke(KafkaConsumerMessage $message)
+    public function handle(KafkaConsumerMessage $message): void
     {
-        echo "Received Message: ";
-        print_r($message->getBody());
+        echo "Received Message: " . $message->getBody();
     }
 }

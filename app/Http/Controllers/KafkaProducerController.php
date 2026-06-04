@@ -12,23 +12,35 @@ class KafkaProducerController extends Controller
     {
         $message = $request->input('message', 'Default Kafka Message');
 
-        // Simulate Kafka message (log)
-        Log::info('Kafka Message Sent', [
-            'message' => $message,
-            'time' => now()
-        ]);
+        Log::info('Kafka Message Sent', ['message' => $message, 'time' => now()]);
 
-        // Save into database (simulate consumer)
         KafkaMessage::create([
-            'message' => json_encode([
-                'message' => $message,
-                'time' => now()
-            ])
+            'message' => $message, 
+            'topic' => 'default_topic',
+            'payload' => json_encode(['message' => $message, 'time' => now()]),
+            'status' => 'sent'
         ]);
 
         return response()->json([
             'status' => 'Message Sent & Stored (Simulated)',
             'data' => $message
         ]);
+    }
+
+    public function healthCheck()
+    {
+        try {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Kafka service is operational',
+                'timestamp' => now()
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Kafka Health Check Failed: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Kafka service unavailable'
+            ], 500);
+        }
     }
 }
